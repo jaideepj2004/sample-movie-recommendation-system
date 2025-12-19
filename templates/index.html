@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommendation System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎬 Movie Recommendation System</h1>
+            <p>Discover your next favorite movie</p>
+        </header>
+
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" 
+                       id="searchInput" 
+                       placeholder="Search for movies..." 
+                       aria-label="Search movies">
+                <button id="searchBtn">Search</button>
+            </div>
+
+            <div class="filter-section">
+                <div class="filter-group">
+                    <label for="genreFilter">Genre</label>
+                    <select id="genreFilter">
+                        <option value="all">All Genres</option>
+                        <option value="action">Action</option>
+                        <option value="comedy">Comedy</option>
+                        <option value="drama">Drama</option>
+                        <option value="horror">Horror</option>
+                        <option value="sci-fi">Sci-Fi</option>
+                        <option value="romance">Romance</option>
+                        <option value="thriller">Thriller</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="yearFilter">Year</label>
+                    <select id="yearFilter">
+                        <option value="all">All Years</option>
+                        <option value="2024">2024</option>
+                        <option value="2023">2023</option>
+                        <option value="2022">2022</option>
+                        <option value="2021">2021</option>
+                        <option value="2020">2020</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="ratingFilter">Min Rating</label>
+                    <select id="ratingFilter">
+                        <option value="0">All Ratings</option>
+                        <option value="7">7+</option>
+                        <option value="8">8+</option>
+                        <option value="9">9+</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div id="loading" class="loading" style="display: none;">
+            Loading...
+        </div>
+
+        <div id="error" class="error" style="display: none;"></div>
+
+        <div class="movies-grid" id="moviesGrid"></div>
+
+        <div id="recommendationsSection" class="recommendations-section" style="display: none;">
+            <h2>Recommended Movies</h2>
+            <div class="movies-grid" id="recommendationsGrid"></div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
