@@ -1,187 +1,138 @@
-# Movie Recommendation System
+# Sample Movie Recommendation System
 
-A full-stack movie recommendation system with an interactive frontend built using HTML, CSS, and JavaScript, and a robust backend powered by Python Flask.
+A lightweight **movie recommendation web app** built with **Flask** that provides search and similarity-based recommendations for 20 curated films using genre and tag matching.
+
+---
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Tech Stack](#tech-stack)
+- [Movie Catalogue](#movie-catalogue)
+- [Recommendation Algorithm](#recommendation-algorithm)
+- [Project Structure](#project-structure)
+- [API Reference](#api-reference)
+- [Setup & Running](#setup--running)
+
+---
+
+## Overview
+
+The system serves a catalogue of **20 hand-picked high-rated movies** with genre and tag metadata. Users can browse all movies, search by title/genre/tag, or get recommendations similar to a movie they already like — all through a REST JSON API and an HTML/CSS frontend.
+
+---
 
 ## Features
 
-✨ **Browse Movies** - View a collection of popular movies with ratings and descriptions
+- 20 movies with genre, year, rating, description, and tags
+- Full-text search across title, genre, and tags
+- Similarity-based recommendations (genre + tag overlap + rating weighting)
+- REST JSON API with Flask-CORS for cross-origin support
+- Clean HTML/CSS/JS frontend
 
-🔍 **Search Functionality** - Search movies by title, genre, or tags
-
-🎯 **Smart Recommendations** - Get personalized movie recommendations based on genre and tag similarities
-
-🎨 **Filter Options** - Filter movies by genre, year, and minimum rating
-
-📱 **Responsive Design** - Beautiful gradient UI that works on all devices
+---
 
 ## Tech Stack
 
-### Frontend
-- **HTML5** - Structure and content
-- **CSS3** - Styling with gradients and animations
-- **JavaScript (Vanilla)** - Dynamic functionality and API interactions
+| Component | Technology |
+|---|---|
+| Backend | Python, Flask |
+| CORS | Flask-CORS |
+| Frontend | HTML, CSS, JavaScript (`templates/`, `static/`) |
+| Data Store | In-memory Python list (no database) |
 
-### Backend
-- **Python Flask** - RESTful API server
-- **Flask-CORS** - Cross-origin resource sharing support
+---
+
+## Movie Catalogue
+
+| ID | Title | Year | Rating |
+|---|---|---|---|
+| 1 | The Shawshank Redemption | 1994 | 9.3 |
+| 2 | The Godfather | 1972 | 9.2 |
+| 3 | The Dark Knight | 2008 | 9.0 |
+| 4 | Pulp Fiction | 1994 | 8.9 |
+| 5 | Forrest Gump | 1994 | 8.8 |
+| 6 | Inception | 2010 | 8.8 |
+| 7 | The Matrix | 1999 | 8.7 |
+| 8 | Goodfellas | 1990 | 8.7 |
+| 9 | Interstellar | 2014 | 8.6 |
+| 10 | The Silence of the Lambs | 1991 | 8.6 |
+| ... | and 10 more | | |
+
+---
+
+## Recommendation Algorithm
+
+When you request recommendations for movie `X`:
+
+```python
+for each other_movie:
+    genre_match = len(X.genres ∩ movie.genres)      # genre overlap count
+    tag_match   = len(X.tags ∩ movie.tags)           # tag overlap count
+    score       = (genre_match × 2) + tag_match + (movie.rating / 10)
+
+# Sort by score descending, return top 6
+```
+
+Movies with more genre and tag overlap plus a high rating score highest.
+
+---
 
 ## Project Structure
 
 ```
 sample-movie-recommendation-system/
-├── app.py                 # Flask backend application
-├── requirements.txt       # Python dependencies
+├── app.py               # Flask app + movie database + recommendation logic
+├── requirements.txt     # Dependencies (flask, flask-cors)
 ├── templates/
-│   └── index.html         # Main HTML page
-├── static/
-│   ├── style.css          # Stylesheet
-│   └── script.js          # JavaScript logic
-└── README.md              # This file
+│   └── index.html       # Web UI
+├── static/              # CSS / JS assets
+├── .gitignore
+└── README.md
 ```
-
-## Installation
-
-### Prerequisites
-- Python 3.8 or higher
-- pip (Python package manager)
-
-### Steps
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/jaideepj2004/sample-movie-recommendation-system.git
-   cd sample-movie-recommendation-system
-   ```
-
-2. **Create a virtual environment (recommended)**
-   ```bash
-   python -m venv venv
-   
-   # On Windows
-   venv\Scripts\activate
-   
-   # On macOS/Linux
-   source venv/bin/activate
-   ```
-
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Run the application**
-   ```bash
-   python app.py
-   ```
-
-5. **Open your browser**
-   Navigate to `http://localhost:5000`
-
-## API Endpoints
-
-### Get All Movies
-```
-GET /api/movies
-```
-Returns all movies in the database.
-
-### Search Movies
-```
-GET /api/search?query={search_term}
-```
-Search movies by title, genre, or tags.
-
-### Get Recommendations
-```
-GET /api/recommend/{movie_id}
-```
-Get movie recommendations based on a specific movie.
-
-### Get Single Movie
-```
-GET /api/movie/{movie_id}
-```
-Get details of a specific movie.
-
-## How It Works
-
-### Recommendation Algorithm
-
-The system uses a simple but effective content-based filtering approach:
-
-1. **Genre Matching** - Compares genres between movies (weighted x2)
-2. **Tag Matching** - Matches similar tags (themes, moods, elements)
-3. **Rating Boost** - Factors in movie ratings to prioritize quality
-
-Similarity Score = (Genre Matches × 2) + Tag Matches + (Rating / 10)
-
-## Features in Detail
-
-### Search & Filter
-- Real-time search across titles, genres, and tags
-- Filter by genre (Action, Comedy, Drama, etc.)
-- Filter by year (2020-2024)
-- Filter by minimum rating (7+, 8+, 9+)
-
-### Movie Cards
-- Movie posters
-- Title, year, and rating
-- Genre information
-- Brief description
-- Click to get recommendations
-
-### Recommendations
-- Click any movie to get 6 similar movies
-- Smooth scroll to recommendations section
-- Chain recommendations by clicking suggested movies
-
-## Sample Movie Database
-
-The application includes 20 carefully selected movies spanning multiple genres:
-- Drama
-- Action
-- Sci-Fi
-- Thriller
-- Comedy
-- Animation
-- And more!
-
-## Future Enhancements
-
-📀 **User Ratings** - Allow users to rate movies
-
-👤 **User Profiles** - Personalized recommendations based on viewing history
-
-📊 **Advanced Algorithm** - Collaborative filtering using user data
-
-🎞️ **Real API Integration** - Connect to TMDB or OMDB APIs for real movie data
-
-💾 **Database** - Add PostgreSQL or MongoDB for persistent storage
-
-⭐ **Favorites** - Save and manage favorite movies
-
-## Contributing
-
-Contributions are welcome! Feel free to:
-- Report bugs
-- Suggest new features
-- Submit pull requests
-
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
-
-## Author
-
-**Jaideep Jaiswal**
-- GitHub: [@jaideepj2004](https://github.com/jaideepj2004)
-
-## Acknowledgments
-
-- Movie data is sample/placeholder data for demonstration purposes
-- UI inspired by modern streaming platforms
-- Built as a learning project to demonstrate full-stack development skills
 
 ---
 
-🎬 **Enjoy discovering your next favorite movie!** 🎬
+## API Reference
+
+### `GET /`
+Returns the main web interface.
+
+### `GET /api/movies`
+Returns all 20 movies.
+```json
+{ "movies": [...], "total": 20 }
+```
+
+### `GET /api/search?query=<text>`
+Search movies by title, genre, or tag.
+```json
+{ "movies": [...], "total": 3, "query": "sci-fi" }
+```
+
+### `GET /api/recommend/<movie_id>`
+Returns up to 6 movies similar to the given movie ID.
+```json
+{
+  "movie_title": "Inception",
+  "recommendations": [...],
+  "total": 6
+}
+```
+
+### `GET /api/movie/<movie_id>`
+Returns a single movie by ID.
+
+---
+
+## Setup & Running
+
+```bash
+git clone https://github.com/jaideepj2004/sample-movie-recommendation-system.git
+cd sample-movie-recommendation-system
+pip install -r requirements.txt
+python app.py
+```
+
+Open `http://localhost:5000`.
